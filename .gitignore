@@ -1,3 +1,4 @@
+# Local: IntelliJ, Maven, OS files
 .DS_Store
 target/
 pom.xml.tag
@@ -13,3 +14,24 @@ buildNumber.properties
 !/.mvn/wrapper/maven-wrapper.jar
 
 .idea
+
+# Remote: General Java project ignores
+# Compiled class files
+*.class
+
+# Log files
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
