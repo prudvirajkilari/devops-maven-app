@@ -1,0 +1,41 @@
+---
+- name: Install Tomcat and deploy app
+  hosts: app
+  become: yes
+  vars:
+    tomcat_pkg: tomcat9
+    tomcat_service: tomcat9
+    app_war_src: "{{ war_file | default('target/*.war') }}"
+    app_war_name: "app.war"
+    deploy_dir: "/var/lib/tomcat9/webapps"
+
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install Tomcat
+      apt:
+        name:
+          - "{{ tomcat_pkg }}"
+          - "{{ tomcat_pkg }}-admin"
+        state: present
+
+    - name: Ensure Tomcat is running
+      service:
+        name: "{{ tomcat_service }}"
+        state: started
+        enabled: yes
+
+    - name: Copy WAR to Tomcat
+      copy:
+        src: "{{ app_war_src }}"
+        dest: "{{ deploy_dir }}/{{ app_war_name }}"
+        owner: tomcat
+        group: tomcat
+        mode: '0644'
+
+    - name: Restart Tomcat
+      service:
+        name: "{{ tomcat_service }}"
+        state: restarted
